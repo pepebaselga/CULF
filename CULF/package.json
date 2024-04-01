@@ -1,0 +1,16 @@
+{
+  "name": "culf",
+  "version": "1.0.0",
+  "description": "Cornell's Digital Lost and Found ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Pepe Baselga-Garriga",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}

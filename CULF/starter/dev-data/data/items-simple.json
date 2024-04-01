@@ -1,0 +1,33 @@
+[
+  {
+    "id": 0,
+    "item": "AirPods",
+    "type": "Headphones",
+    "location": "Central",
+    "building": "Olin Hall",
+    "room": "N/A",
+    "date-found": "11/22/2023",
+    "claimed": "no",
+    "descriptors": "Scratch on the front of the case.",
+    "imageCover": "airpods.jpg"
+  },
+  {
+    "id": 1,
+    "item": "Hat",
+    "type": "Cloths",
+    "location": "North Campus",
+    "building": "Donlon",
+    "room": "517",
+    "date-found": "10/21/2023",
+    "claimed": "no",
+    "descriptors": "Green hat with a Nike logo.",
+    "imageCover": "nike-hat.jpg"
+  },
+  {
+    "id": 2,
+    "item": "Student ID Card",
+    "type": "Identification",
+    "location": "West Campus",
+    "date-found": "11/22/2023"
+  }
+]
