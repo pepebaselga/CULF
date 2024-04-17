@@ -6,7 +6,7 @@ router
   .route('/:id')
   .get(userController.getUser)
   .delete(userController.deleteUser)
-  .patch(userController.updateUser);
+  .patch(userController.patch);
 router
   .route('/')
   .get(userController.getAllUsers)

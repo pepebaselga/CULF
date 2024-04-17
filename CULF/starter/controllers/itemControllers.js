@@ -1,85 +1,101 @@
-const fs = require('fs');
-
-const items = JSON.parse(
-  fs.readFileSync('starter/dev-data/data/items-simple.json')
-);
+const Items = require('../models/itemsModels');
 
 //getting the items
-exports.getAllItems = (req, res) => {
-  console.log('found');
-  res.status(200).json({
-    status: 'success',
-    data: {
-      results: items.length,
-      items
-    }
-  });
+exports.getAllItems = async (req, res) => {
+  try {
+    const queryObj = { ...req.query };
+    const excludedField = ['page', 'sort', 'limit', 'fields'];
+    excludedField.forEach((el) => delete queryObj[el]);
+
+    console.log(req.query, queryObj);
+    const query = Items.find(queryObj);
+
+    //{ itemsFound: '0', itemsLost:{ $gte: '0'} }
+    //{ itemsFound: '0', itemsLost: { gte: '0' } }
+    const items = await query;
+    res.status(200).json({
+      status: 'success',
+      data: {
+        results: items.length,
+        items
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid Data Sent!'
+    });
+  }
 };
 
 //get a specific item
-exports.getItem = (req, res) => {
-  const newID = items[items.length - 1].id + 1;
-  if (id > items.length - 1) {
-    res.status(404).json({
+exports.getItem = async (req, res) => {
+  try {
+    const item = await Items.findById(req.params.id);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        item
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
       status: 'fail',
-      message: 'invalid id!'
+      message: 'Invalid Data Sent!'
     });
   }
-  const item = items.find((el) => el.id === id);
-  res.status(200).json({
-    status: 'success',
-    data: {
-      item
-    }
-  });
 };
 
 //Creating a item
-exports.createItem = (req, res) => {
-  const newID = items[items.length - 1].id + 1;
-  const newItem = Object.assign({ id: newID }, req.body);
-  items.push(newItem);
-  fs.writeFile(
-    './dev-data/data/items-simple.json',
-    JSON.stringify(items),
-    (err) => {
-      res.status(201).json({
-        status: 'success',
-        data: {
-          item: newItem
-        }
-      });
-    }
-  );
-};
-
-exports.delete = (req, res) => {
-  const id = req.params.id * 1;
-  if (id > items.length - 1) {
-    res.status(404).json({
+exports.createItem = async (req, res) => {
+  try {
+    const newItem = await Items.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        item: newItem
+      }
+    });
+  } catch (err) {
+    req.status(400).json({
       status: 'fail',
-      message: 'invalid id!'
+      message: 'Invalid Data Sent!'
     });
   }
-  const tour = items.find((el) => el.id === id);
-  res.status(204).json({
-    status: 'success',
-    data: null
-  });
 };
 
-exports.patch = (req, res) => {
-  const id = req.params.id * 1;
-  if (id > items.length - 1) {
-    res.status(404).json({
+exports.delete = async (req, res) => {
+  try {
+    await Items.findByIdAndDelete(req.params.id);
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
+  } catch (err) {
+    res.status(400).json({
       status: 'fail',
-      message: 'invalid id!'
+      message: 'Invalid Data Sent!'
     });
   }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      item: 'Updated Data Here'
-    }
-  });
+};
+
+exports.patch = async (req, res) => {
+  try {
+    const newItem = await Items.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        newItem
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid Data Sent!'
+    });
+  }
 };
