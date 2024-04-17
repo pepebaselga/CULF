@@ -1,27 +1,18 @@
 //make these functions functional
 const { query } = require('express');
-const User = require('../models/usersModel');
+const Users = require('../models/usersModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    //Build query
-    //1) Filtering
-    const queryObj = { ...req.query };
-    const excludedField = ['page', 'sort', 'limit', 'fields'];
-    excludedField.forEach((el) => delete queryObj[el]);
-    //2) Advanced Filtering
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    // console.log(JSON.parse(queryStr));
-
-    // console.log(req.query, queryObj);
-    const query = User.find(JSON.parse(queryStr));
-
-    //{ itemsFound: '0', itemsLost:{ $gte: '0'} }
-    //{ itemsFound: '0', itemsLost: { gte: '0' } }
+    const features = new APIFeatures(Users.find(), req.query)
+      .fitler()
+      .sort()
+      .limitFields()
+      .paginate();
 
     //Execute Query
-    const user = await query;
+    const user = await features.query;
     //Send Response
     res.status(200).json({
       status: 'success',
@@ -40,7 +31,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await Users.findById(req.params.id);
     res.status(200).json({
       status: 'success',
       data: {
@@ -57,7 +48,7 @@ exports.getUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
+    const newUser = await Users.create(req.body);
     res.status(201).json({
       status: 'success',
       data: {
@@ -74,7 +65,7 @@ exports.createUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
+    await Users.findByIdAndDelete(req.params.id);
     res.status(204).json({
       status: 'success',
       data: null
@@ -89,7 +80,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.patch = async (req, res) => {
   try {
-    const newUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const newUser = await Users.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
     });

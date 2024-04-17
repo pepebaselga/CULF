@@ -6,6 +6,12 @@ const usersSchema = new mongoose.Schema({
     required: [true, 'A user must have a type'],
     unique: true
   },
+  accountCreated: {
+    type: Date,
+    required: [true],
+    default: Date.now(),
+    select: false //automatically limiting this field so that users can't see it
+  },
   itemsFound: {
     type: Number,
     default: 0

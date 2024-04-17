@@ -1,18 +1,26 @@
 const Items = require('../models/itemsModels');
+const APIFeatures = require('../utils/apiFeatures');
+
+//special control for most frequent calls (newest item found)
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '1';
+  req.query.sort = 'claimed,-dateFound';
+  req.query.fields =
+    'item,type,dateFound,claimed,location,room,uniqueDescriptors,color,room';
+  next();
+};
 
 //getting the items
 exports.getAllItems = async (req, res) => {
   try {
-    const queryObj = { ...req.query };
-    const excludedField = ['page', 'sort', 'limit', 'fields'];
-    excludedField.forEach((el) => delete queryObj[el]);
+    //TODO: EXECUTE QUERY
+    const features = new APIFeatures(Items.find(), req.query)
+      .fitler()
+      .sort()
+      .limitFields()
+      .paginate();
 
-    console.log(req.query, queryObj);
-    const query = Items.find(queryObj);
-
-    //{ itemsFound: '0', itemsLost:{ $gte: '0'} }
-    //{ itemsFound: '0', itemsLost: { gte: '0' } }
-    const items = await query;
+    const items = await features.query;
     res.status(200).json({
       status: 'success',
       data: {
@@ -96,6 +104,62 @@ exports.patch = async (req, res) => {
     res.status(400).json({
       status: 'fail',
       message: 'Invalid Data Sent!'
+    });
+  }
+};
+
+exports.getItemStats = async (req, res) => {
+  try {
+    const stats = await Items.aggregate([
+      {
+        $match: { claimed: false }
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$location' },
+          numItems: { $sum: 1 },
+          avgEstimatedPrice: { $avg: '$estimatedPrice' },
+          minEstimatedPrice: { $min: '$estimatedPrice' },
+          maxEstimatedPrice: { $max: '$estimatedPrice' }
+        }
+      },
+      {
+        $sort: { avgPrice: 1 } //1 for ascending 0 for dscending
+      }
+      // {
+      //   //can repeat stages
+      //   $match: { _id: { $ne: 'WEST CAMPUS' } }
+      // }
+    ]);
+    console.log(stats);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err
+    });
+  }
+};
+
+exports.getMonthlyPlan = async (req, res) => {
+  try {
+    const year = req.params.year * 1;
+    const plan = await Items.aggregate([]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        plan
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err
     });
   }
 };

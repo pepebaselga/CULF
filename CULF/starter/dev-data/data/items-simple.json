@@ -6,9 +6,12 @@
     "color": "white",
     "room": null,
     "dateFound": "2023-11-22T00:00:00.000Z",
-    "claimed": false,
+    "claimed": true,
+    "estimatedPrice": 120,
     "images": ["airpods.jpg"],
-    "uniqueDescriptors": "Scratch on the front of the case."
+    "uniqueDescriptors": "Scratch on the front of the case.",
+    "dateAdded": "2024-04-17T18:23:21.492+00:00",
+    "dateClaimed": "2024-05-17T18:23:21.492+00:00"
   },
   {
     "item": "Hat",
@@ -16,10 +19,13 @@
     "location": "North Campus",
     "color": "white",
     "room": 517,
+    "estimatedPrice": 25,
     "dateFound": "2023-10-21T00:00:00.000Z",
     "claimed": false,
     "images": ["nike-hat.jpg"],
-    "uniqueDescriptors": "Green hat with a Nike logo."
+    "uniqueDescriptors": "Green hat with a Nike logo.",
+    "dateAdded": "2024-04-17T18:23:21.492+00:00",
+    "dateClaimed": null
   },
   {
     "item": "Student ID Card",
@@ -27,9 +33,12 @@
     "location": "West Campus",
     "color": "white",
     "room": null,
+    "estimatedPrice": 10,
     "dateFound": "2023-11-22T00:00:00.000Z",
     "claimed": false,
     "images": [],
-    "uniqueDescriptors": null
+    "uniqueDescriptors": null,
+    "dateAdded": "2024-04-17T18:23:21.492+00:00",
+    "dateClaimed": null
   }
 ]

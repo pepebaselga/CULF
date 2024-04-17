@@ -17,10 +17,20 @@ const itemsSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'An item must include the date it was found or lost on']
   },
+  dateAdded: {
+    type: Date,
+    required: [true],
+    default: Date.now(),
+    selected: false
+  },
   claimed: {
     type: Boolean,
     required: [true, 'An item must have a claimed status'],
     default: false
+  },
+  dateClaimed: {
+    type: Date,
+    default: null
   },
   images: {
     type: [String],
@@ -42,6 +52,10 @@ const itemsSchema = new mongoose.Schema({
   uniqueDescriptors: {
     type: String,
     trim: true
+  },
+  estimatePrice: {
+    type: Number,
+    default: null
   }
 });
 const Items = mongoose.model('items', itemsSchema);
