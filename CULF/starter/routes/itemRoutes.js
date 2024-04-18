@@ -9,6 +9,7 @@ router
   .get(itemController.aliasTopTours, itemController.getAllItems);
 
 router.route('/item-stats').get(itemController.getItemStats);
+router.route('/month-found/:year').get(itemController.monthsFound);
 router
   .route('/:id')
   .get(itemController.getItem)

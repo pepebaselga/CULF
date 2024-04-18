@@ -31,7 +31,7 @@ exports.getAllItems = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: 'Invalid Data Sent!'
+      message: err
     });
   }
 };
@@ -49,7 +49,7 @@ exports.getItem = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: 'Invalid Data Sent!'
+      message: err
     });
   }
 };
@@ -65,9 +65,9 @@ exports.createItem = async (req, res) => {
       }
     });
   } catch (err) {
-    req.status(400).json({
+    res.status(400).json({
       status: 'fail',
-      message: 'Invalid Data Sent!'
+      message: err
     });
   }
 };
@@ -82,7 +82,7 @@ exports.delete = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: 'Invalid Data Sent!'
+      message: err
     });
   }
 };
@@ -118,9 +118,9 @@ exports.getItemStats = async (req, res) => {
         $group: {
           _id: { $toUpper: '$location' },
           numItems: { $sum: 1 },
-          avgEstimatedPrice: { $avg: '$estimatedPrice' },
-          minEstimatedPrice: { $min: '$estimatedPrice' },
-          maxEstimatedPrice: { $max: '$estimatedPrice' }
+          avgEstimatedPrice: { $avg: '$estimatePrice' },
+          minEstimatedPrice: { $min: '$estimatePrice' },
+          maxEstimatedPrice: { $max: '$estimatePrice' }
         }
       },
       {
@@ -146,10 +146,40 @@ exports.getItemStats = async (req, res) => {
   }
 };
 
-exports.getMonthlyPlan = async (req, res) => {
+exports.monthsFound = async (req, res) => {
   try {
     const year = req.params.year * 1;
-    const plan = await Items.aggregate([]);
+    const plan = await Items.aggregate([
+      {
+        $unwind: '$dateFound'
+      },
+      {
+        $match: {
+          dateFound: {
+            $gte: new Date(`${year}-01-01`),
+            $lte: new Date(`${year}-12-31`)
+          }
+        }
+      },
+      {
+        $group: {
+          _id: { $month: '$dateFound' },
+          numberOfItems: { $sum: 1 },
+          items: { $push: '$item' }
+        }
+      },
+      {
+        $addFields: { month: `$_id` }
+      },
+      {
+        $project: {
+          _id: 0 //0 hides the field, 1 shows it
+        }
+      },
+      {
+        $sort: { numberOfItems: 1 }
+      }
+    ]);
     res.status(200).json({
       status: 'success',
       data: {

@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "debug": "node --inspect server.js"
   },
   "author": "Pepe Baselga-Garriga",
   "license": "ISC",
@@ -14,7 +15,9 @@
     "express": "^4.19.2",
     "mongodb": "^6.5.0",
     "mongoose": "^5.13.22",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "slugify": "^1.6.6",
+    "validator": "^13.11.0"
   },
   "engines": {
     "node": ">= 10.0.0"
