@@ -31,8 +31,7 @@ const itemsSchema = new mongoose.Schema(
     dateFound: {
       type: Date,
       required: [true, 'An item must include the date it was found or lost on'],
-      default: Date.now(),
-      max: [Date.now(), 'an item must have been found before today']
+      default: Date.now()
     },
     dateAdded: {
       type: Date,
@@ -98,12 +97,12 @@ const itemsSchema = new mongoose.Schema(
 );
 
 //values that can show up but are not saved to the data base
-itemsSchema.virtual('weeksLost').get(function () {
-  const today = new Date().getTime();
-  return Math.round(
-    (today - this.dateFound.getTime()) / (1000 * 3600 * 24 * 7)
-  );
-});
+// itemsSchema.virtual('weeksLost').get(function () {
+//   const today = new Date.now().getTime();
+//   return Math.round(
+//     (today - this.dateFound.getTime()) / (1000 * 3600 * 24 * 7)
+//   );
+// });
 
 //DOCUMENT MIDDLEWARE: runs before (post after) .save() and .create()
 itemsSchema.pre('save', function (next) {
