@@ -1,5 +1,15 @@
 [
   {
+    "netID": "jbb294",
+    "email": "jbb294@cornell.edu",
+    "name": "John",
+    "password": "123456",
+    "passwordConfirm": "123456",
+    "accountCreated": "2024-04-21T00:00:00.000Z",
+    "itemsFound": 0,
+    "itemsLost": 0
+  },
+  {
     "netID": "mra200",
     "email": "mra200@cornell.edu",
     "name": "Maria",

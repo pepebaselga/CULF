@@ -1,13 +1,24 @@
 const express = require('express');
-
-const app = express();
 const itemRouter = require('./starter/routes/itemRoutes');
 const userRouter = require('./starter/routes/userRoutes');
 const globalErrorHandler = require('./starter/controllers/errorControllers');
 const AppError = require('./starter/utils/appError');
-app.use(express.json()); //middlewear: function that can modify the incoming request data
-// app.use(express.static(`${__dirname}/starter/dev-data/images`)); //allows handeling html files for url
+const morgan = require('morgan');
+const app = express();
 
+//1) MIDDLEWARES
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+app.use(express.json()); //middlewear: function that can modify the incoming request data
+app.use(express.static(`${__dirname}/starter/dev-data/images`)); //allows handeling html files for url
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+
+  next();
+});
+//2) ROUTES
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
 app.all('*', (req, res, next) => {

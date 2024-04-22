@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const usersSchema = new mongoose.Schema({
   netID: {
     type: String,
-    required: [true, 'A user must have a type'],
+    required: [true, 'A user must have a netID'],
     unique: true
   },
   email: {
@@ -21,7 +21,8 @@ const usersSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'A user must have a password'],
-    unique: true
+    unique: true,
+    select: false
   },
   passwordConfirm: {
     type: String,
@@ -31,7 +32,8 @@ const usersSchema = new mongoose.Schema({
         //this only points to current doc on NEW document creation
         return this.password === val;
       },
-      message: 'Passwords do not match'
+      message: 'Passwords do not match',
+      select: false
     }
   },
   photo: {
@@ -54,7 +56,8 @@ const usersSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: Number
-  }
+  },
+  passwordChangedAt: Date
 });
 
 usersSchema.pre('save', async function (next) {
@@ -66,6 +69,22 @@ usersSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+usersSchema.methods.correctPassword = async function (candidatePass, userPass) {
+  return await bcrypt.compare(candidatePass, userPass);
+};
+
+usersSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
+
 const Users = mongoose.model('users', usersSchema);
 
 module.exports = Users;
