@@ -1,37 +1,43 @@
 [
   {
-    "netID": "jbb294",
-    "itemsFound": 0,
-    "itemsLost": 1,
-    "phoneNumber": null,
-    "accountCreated": "2024-04-01T08:00:00.000+00:00"
-  },
-  {
     "netID": "mra200",
-    "itemsFound": 3,
-    "itemsLost": 2,
-    "phoneNumber": 1234567890,
-    "accountCreated": "2024-03-15T08:00:00.000+00:00"
+    "email": "mra200@cornell.edu",
+    "name": "Maria",
+    "password": "234567",
+    "passwordConfirm": "234567",
+    "accountCreated": "2024-04-21T00:00:00.000Z",
+    "itemsFound": 0,
+    "itemsLost": 0
   },
   {
     "netID": "tjs45",
-    "itemsFound": 1,
-    "itemsLost": 0,
-    "phoneNumber": 2345678901,
-    "accountCreated": "2024-02-20T08:00:00.000+00:00"
+    "email": "tjs45@cornell.edu",
+    "name": "Tom",
+    "password": "345678",
+    "passwordConfirm": "345678",
+    "accountCreated": "2024-04-21T00:00:00.000Z",
+    "itemsFound": 0,
+    "itemsLost": 0
   },
   {
     "netID": "lkb56",
-    "itemsFound": 2,
-    "itemsLost": 1,
-    "phoneNumber": 3456789012,
-    "accountCreated": "2024-01-30T08:00:00.000+00:00"
+    "email": "lkb56@cornell.edu",
+    "name": "Laura",
+    "password": "456789",
+    "passwordConfirm": "456789",
+    "accountCreated": "2024-04-21T00:00:00.000Z",
+    "itemsFound": 0,
+    "itemsLost": 0
   },
   {
-    "netID": "scq91",
+    "netID": "noj5",
+    "email": "noj5@cornell.edu",
+    "name": "Nolan",
+    "password": 567890,
+    "passwordConfirm": 567890,
+    "accountCreated": "2024-04-21T00:00:00.000Z",
     "itemsFound": 0,
-    "itemsLost": 3,
-    "phoneNumber": null,
-    "accountCreated": "2024-01-01T08:00:00.000+00:00"
+    "itemsLost": 0,
+    "phoneNumber": 9876543210
   }
 ]

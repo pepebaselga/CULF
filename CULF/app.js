@@ -10,7 +10,6 @@ app.use(express.json()); //middlewear: function that can modify the incoming req
 
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
-
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`), 404); //by passing in error knows it needs to go to error handeling middlewear
 }); //all catches all verb and star all urls
