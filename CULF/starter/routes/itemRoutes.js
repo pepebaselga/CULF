@@ -14,7 +14,11 @@ router.route('/month-found/:year').get(itemController.monthsFound);
 router
   .route('/:id')
   .get(authController.protect, itemController.getItem)
-  .delete(authController.protect, itemController.delete)
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'finder'),
+    itemController.delete
+  ) //the order of the middleware is very important because parameters are being passed from function to function
   .patch(authController.protect, itemController.patch);
 router
   .route('/')

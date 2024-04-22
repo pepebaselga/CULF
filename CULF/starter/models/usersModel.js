@@ -18,6 +18,13 @@ const usersSchema = new mongoose.Schema({
   name: {
     type: String
   },
+  role: {
+    type: String,
+    default: 'user',
+    enum: ['user', 'admin', 'flagged-user', 'finder']
+    // required: [true, 'A user must have an assinged role!']
+  },
+
   password: {
     type: String,
     required: [true, 'A user must have a password'],
@@ -57,7 +64,10 @@ const usersSchema = new mongoose.Schema({
   phoneNumber: {
     type: Number
   },
-  passwordChangedAt: Date
+  passwordChangedAt: {
+    type: Date,
+    default: null
+  }
 });
 
 usersSchema.pre('save', async function (next) {
