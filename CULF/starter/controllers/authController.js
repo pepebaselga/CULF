@@ -165,13 +165,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   //3) Update changePasswordAt property for the user
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
-  // if (!(user.passwordConfirm === user.password)) {
-  //   return next(new AppError('Passwords do not match, please try again!', 400));
-  // }
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
-  user.changedPasswordAt = Date.now(); //TODO: I don't think that this is updating correctly
-  console.log(user.changedPasswordAt);
   await user.save();
   //4) Log the user in, send JWT
   const token = signToken(user._id);
