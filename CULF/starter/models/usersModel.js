@@ -70,6 +70,11 @@ const usersSchema = new mongoose.Schema({
   passwordChangedAt: {
     type: Date,
     default: null
+  },
+  active: {
+    type: Boolean,
+    default: true,
+    select: false
   }
 });
 
@@ -87,6 +92,11 @@ usersSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
   this.passwordChangedAt = Date.now() - 1000;
   console.log(this.passwordChangedAt);
+  next();
+});
+usersSchema.pre(/^find/, function (next) {
+  //this points to the current query
+  this.find({ active: { $ne: false } });
   next();
 });
 usersSchema.methods.correctPassword = async function (candidatePass, userPass) {
