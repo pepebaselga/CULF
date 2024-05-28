@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 //2) ROUTES
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
-app.all('*', (req, next) => {
+app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`), 404); //by passing in error knows it needs to go to error handeling middlewear
 }); //all catches all verb and star all urls
 
