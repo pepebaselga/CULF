@@ -6,7 +6,7 @@ const userRouter = require('./starter/routes/userRoutes');
 const globalErrorHandler = require('./starter/controllers/errorControllers');
 const AppError = require('./starter/utils/appError');
 const morgan = require('morgan');
-const app = express();
+// const app = express();
 
 //1)GLOBAL MIDDLEWARES
 //development loging
