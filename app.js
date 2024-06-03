@@ -1,6 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const cors = require('cors');
 const itemRouter = require('./starter/routes/itemRoutes');
 const userRouter = require('./starter/routes/userRoutes');
 const globalErrorHandler = require('./starter/controllers/errorControllers');
@@ -32,6 +33,8 @@ app.use((req, res, next) => {
 
   next();
 });
+
+app.use(cors());
 //2) ROUTES
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
