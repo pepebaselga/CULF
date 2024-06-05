@@ -9,6 +9,7 @@ const AppError = require('./starter/utils/appError');
 const morgan = require('morgan');
 const app = express();
 
+//Nicky glazed my backend
 //1)GLOBAL MIDDLEWARES
 //development loging
 if (process.env.NODE_ENV === 'development') {
